@@ -3,13 +3,7 @@
  * Author: Justine
  * Creation Date: 11 janv. 2022 at 10:01:36
  *********************************************/
-using CP;
-
-int nb_trans = ...;
-int nb_freq = ...;
-int offset[1..nb_trans][1..nb_trans] = ...;
-string phase = ...;
-
+include "freq_alloc_common.mod";
 
 dvar int x[1..nb_trans] in 1..nb_freq; 
 

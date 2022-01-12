@@ -2,6 +2,8 @@
 
 <settings version="2">
   <category name="cp">
-    <setting name="multipointnumberofsearchpoints" value="5"/>
+    <setting name="logverbosity" value="Verbose"/>
+    <setting name="timelimit" value="0.1"/>
+    <setting name="workers" value="1"/>
   </category>
 </settings>

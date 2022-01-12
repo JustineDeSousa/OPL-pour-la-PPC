@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="ASCII"?><project>
 	<version>1.0</version>
 	<configs>
-		<config default="true" name="Configuration 1" category="opl">
-			<ref name="freq_alloc.ops" type="setting">
+		<config default="false" name="Modele naif" category="opl">
+			<ref name="freq_alloc_minimize.mod" type="model">
 			</ref>
-			<ref name="freq_alloc1.dat" type="data">
-			</ref>
-			<ref name="freq_alloc_alternative.mod" type="model">
+			<ref name="freq_alloc.dat" type="data">
 			</ref>
 		</config>
-		<config default="false" name="Configuration 2" category="opl">
+		<config default="false" name="Modele alternatif" category="opl">
+			<ref name="freq_alloc_alternative.mod" type="model">
+			</ref>
+			<ref name="freq_alloc.dat" type="data">
+			</ref>
+		</config>
+		<config default="false" name="10_sol" category="opl">
+			<ref name="freq_alloc_10_sol.mod" type="model">
+			</ref>
+			<ref name="freq_alloc.dat" type="data">
+			</ref>
+		</config>
+		<config default="false" name="Boucle Min" category="opl">
+			<ref name="freq_alloc_boucle_min.mod" type="model">
+			</ref>
+			<ref name="freq_alloc.dat" type="data">
+			</ref>
+		</config>
+		<config default="true" name="Tests param" category="opl">
+			<ref name="freq_alloc_alternative.mod" type="model">
+			</ref>
 			<ref name="freq_alloc.ops" type="setting">
 			</ref>
-			<ref name="freq_alloc2.dat" type="data">
-			</ref>
-			<ref name="freq_alloc_sol_real.mod" type="model">
+			<ref name="freq_alloc.dat" type="data">
 			</ref>
 		</config>
 	</configs>

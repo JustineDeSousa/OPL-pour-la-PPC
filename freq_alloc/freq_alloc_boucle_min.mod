@@ -1,87 +1,59 @@
 /*********************************************
  * OPL 12.9.0.0 Model
  * Author: Justine
- * Creation Date: 11 janv. 2022 at 10:01:36
+ * Creation Date: 11 janv. 2022 at 15:46:03
  *********************************************/
-using CP;
+include "freq_alloc_common.mod";
 
-int nb_trans = ...;
-int nb_freq = ...;
-int offset[1..nb_trans][1..nb_trans] = ...;
-string phase = ...;
+dvar int even[1..nb_trans div 2] in 1..nb_freq div 2;
+dvar int odd[1..(nb_trans + nb_trans mod 2)div 2] in 1..(nb_freq + nb_freq mod 2)div 2;
 
-
-dvar int x[1..nb_trans] in 1..nb_freq; 
-
-minimize max(i in 1..nb_trans) x[i];
+dexpr int x[i in 1..nb_trans]=(i mod 2 == 0)?even[i div 2]:odd[i div 2 + 1];
 
 constraints{
-	forall(i in 1..nb_trans) x[i] mod 2 == i mod 2;
-	forall (i,j in 1..nb_trans) abs(x[i]-x[j]) >= offset[i][j];
+	forall (i,j in 1..nb_trans) abs(2*x[i]-(i mod 2)-2*x[j]+ (j mod 2)) >= offset[i][j];
 }
-
 main{
-
-	var f = cp.factory;
-	
-	var phase1 = f.searchPhase( thisOplModel.x,	f.selectSmallest(f.domainSize()), 	f.selectSmallest(f.value())); 
-	var phase2 = f.searchPhase( thisOplModel.x,	f.selectLargest(f.domainSize()), 	f.selectSmallest(f.value()));	
-	var phase3 = f.searchPhase( thisOplModel.x,	f.selectSmallest(f.varIndex(thisOplModel.x)), 	f.selectSmallest(f.value()));
-	var phase4 = f.searchPhase( thisOplModel.x,	f.selectLargest(f.varIndex(thisOplModel.x)), 	f.selectSmallest(f.value()));
-	var phase5 = f.searchPhase( thisOplModel.x,	f.selectSmallest(f.varIndex(thisOplModel.x)), 	f.selectRandomValue());
-	
-	if (thisOplModel.phase == "phase1")
-		cp.setSearchPhases(phase1); 
-	else if (thisOplModel.phase == "phase2")
-		cp.setSearchPhases(phase2); 
-	else if (thisOplModel.phase == "phase3")
-		cp.setSearchPhases(phase3);
-	else if (thisOplModel.phase == "phase4")
-		cp.setSearchPhases(phase4);
-	else if (thisOplModel.phase == "phase5")
-		cp.setSearchPhases(phase5); 
-	
-	// Rechercher les 10 premières solutions
+	var model = thisOplModel;
 	thisOplModel.generate();
 	cp.startNewSearch();
-	var model = thisOplModel;
+	
 	var oldModel = model;
-	var updatedModel;
+	
 	while(cp.solve()) {
-			
+		// Mémoire de la solution	
+		oldModel = model;
+		
 		// Calcul de la frequence max
 		var frequence_max = -1;	
 		for(var i=1; i<=model.nb_trans; i++){
 			if (model.x[i] >= frequence_max)
-				frequence_max = model.x[i];
+				frequence_max = model.x[i]*2-i % 2;
 		}
+		
+		//Copie les datas du modèle courant et les modifie
 		var data = model.dataElements;
 		data.nb_freq = frequence_max - 1;
+		writeln("nouvelle frequence max = ", data.nb_freq)
 
-		var def = model.modelDefinition;
+		//Crée un nouveau modèle identique
+		model = new IloOplModel(model.modelDefinition,cp);
+		
+		//Ajoute les nouvelles datas au nouveau modèle
+		model.addDataSource(data);
+		model.generate();
 
-		updatedModel = new IloOplModel(def,cp);
-		
-		updatedModel.addDataSource(data);
-
-		updatedModel.generate();
-		oldModel = model;
-		
-		
-		model = updatedModel;
-
-		
-		
 	}
+	//Récupère le dernier modèle ayant une solution
 	var model = new IloOplModel(oldModel.modelDefinition,cp);
 	model.addDataSource(oldModel.dataElements)
+	
+	//Solve the model
 	model.generate();
 	cp.solve();
-	write("Solution:");
-	for(var i=1; i<=oldModel.nb_trans; i++){
-		write(model.x[i], " ");
-	}
-	writeln()
+	
+	//Write the solution
+	model.postProcess();
 }
 
-
+include "freq_alloc_ecriture.mod";

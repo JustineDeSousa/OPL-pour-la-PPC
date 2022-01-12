@@ -8,10 +8,7 @@ using CP;
 int N = ...;
 int d = ...;
 
-//tuple position{
-//	x;
-//	y;
-//}
+
 dvar int x[1..N] in 1..d;
 dvar int y[1..N] in 1..d;
 

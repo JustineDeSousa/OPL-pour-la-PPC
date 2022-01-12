@@ -1,58 +1,29 @@
 /*********************************************
  * OPL 12.9.0.0 Model
  * Author: Justine
- * Creation Date: 11 janv. 2022 at 10:01:36
+ * Creation Date: 11 janv. 2022 at 15:46:03
  *********************************************/
-using CP;
+include "freq_alloc_common.mod";
 
-int nb_trans = ...;
-int nb_freq = ...;
-int offset[1..nb_trans][1..nb_trans] = ...;
-string phase = ...;
+dvar int even[1..nb_trans div 2] in 1..nb_freq div 2;
+dvar int odd[1..(nb_trans + nb_trans mod 2)div 2] in 1..(nb_freq + nb_freq mod 2)div 2;
 
-
-dvar int x[1..nb_trans] in 1..nb_freq; 
-
-//minimize max(i in 1..nb_trans) x[i];
+dexpr int x[i in 1..nb_trans]=(i mod 2 == 0)?even[i div 2]:odd[i div 2 + 1];
 
 constraints{
-	forall(i in 1..nb_trans) x[i] mod 2 == i mod 2;
-	forall (i,j in 1..nb_trans) abs(x[i]-x[j]) >= offset[i][j];
+	forall (i,j in 1..nb_trans) abs(2*x[i]-(i mod 2)-2*x[j]+ (j mod 2)) >= offset[i][j];
 }
 
 main{
-
-	var f = cp.factory;
-	
-	var phase1 = f.searchPhase( thisOplModel.x,	f.selectSmallest(f.domainSize()), 	f.selectSmallest(f.value())); 
-	var phase2 = f.searchPhase( thisOplModel.x,	f.selectLargest(f.domainSize()), 	f.selectSmallest(f.value()));	
-	var phase3 = f.searchPhase( thisOplModel.x,	f.selectSmallest(f.varIndex(thisOplModel.x)), 	f.selectSmallest(f.value()));
-	var phase4 = f.searchPhase( thisOplModel.x,	f.selectLargest(f.varIndex(thisOplModel.x)), 	f.selectSmallest(f.value()));
-	var phase5 = f.searchPhase( thisOplModel.x,	f.selectSmallest(f.varIndex(thisOplModel.x)), 	f.selectRandomValue());
-	
-	if (thisOplModel.phase == "phase1")
-		cp.setSearchPhases(phase1); 
-	else if (thisOplModel.phase == "phase2")
-		cp.setSearchPhases(phase2); 
-	else if (thisOplModel.phase == "phase3")
-		cp.setSearchPhases(phase3);
-	else if (thisOplModel.phase == "phase4")
-		cp.setSearchPhases(phase4);
-	else if (thisOplModel.phase == "phase5")
-		cp.setSearchPhases(phase5); 
-	
 	// Rechercher les 10 premières solutions
 	thisOplModel.generate();
 	cp.startNewSearch();
 	var n=1;
 	while(n <=10 && cp.next()) {
-			
-		for(var i=1; i<=thisOplModel.nb_trans; i++){
-			write(thisOplModel.x[i], " ");
-		}
+		write("Solution n°", n, " :\t");	
+		thisOplModel.postProcess();
 		n++;
-		writeln();
 	}
 }
 
-
+include "freq_alloc_ecriture.mod";
