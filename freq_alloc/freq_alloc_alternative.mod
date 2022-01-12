@@ -11,8 +11,8 @@ int offset[1..nb_trans][1..nb_trans] = ...;
 string phase = ...;
 
 
-dvar int even[1..nb_trans div 2] in 1..nb_trans div 2;
-dvar int odd[1..(nb_trans + nb_trans mod 2)div 2] in 1..(nb_trans + nb_trans mod 2)div 2;
+dvar int even[1..nb_trans div 2] in 1..nb_freq div 2;
+dvar int odd[1..(nb_trans + nb_trans mod 2)div 2] in 1..(nb_freq + nb_freq mod 2)div 2;
 
 dexpr int x[i in 1..nb_trans]=(i mod 2 == 0)?even[i div 2]:odd[i div 2 + 1];
 
