@@ -25,6 +25,14 @@
 			<ref name="Cavalier.ops" type="setting">
 			</ref>
 		</config>
+		<config default="false" name="SearchTests" category="opl">
+			<ref name="Cavalier.dat" type="data">
+			</ref>
+			<ref name="Cavalier_search.mod" type="model">
+			</ref>
+			<ref name="Cavalier_min.ops" type="setting">
+			</ref>
+		</config>
 	</configs>
 	
 </project>
