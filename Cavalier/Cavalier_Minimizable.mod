@@ -47,5 +47,5 @@ execute{
 		writeln();
 		writeln(line);
 	}
-	write("Cavaliers min = ", d*d / 2 - cp.getObjValue());
+	write("Cavaliers min = ", Math.floor(d*d / 2) - cp.getObjValue());
 }
