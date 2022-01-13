@@ -24,8 +24,8 @@ subject to{
 
 main{
 	var f = cp.factory;
-	var varChoice = f.selectSmallest(f.domainSize());
-	var valChoice = f.selectSmallest(f.value());
+	var varChoice = f.selectLargest(f.SuccessRate());
+	var valChoice = f.selectRandomValue();
 	cp.setSearchPhases(f.searchPhase( thisOplModel.x,	varChoice, 	valChoice)); 
 	thisOplModel.generate();
 	cp.solve();
