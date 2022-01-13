@@ -21,13 +21,15 @@ main{
 	var oldModel = model;
 	
 	while(cp.solve()) {
+		
+		
 		// Mémoire de la solution	
 		oldModel = model;
 		
 		// Calcul de la frequence max
 		var frequence_max = -1;	
 		for(var i=1; i<=model.nb_trans; i++){
-			if (model.x[i] >= frequence_max)
+			if (model.x[i]*2-i % 2 >= frequence_max)
 				frequence_max = model.x[i]*2-i % 2;
 		}
 		
