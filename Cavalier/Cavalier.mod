@@ -5,18 +5,19 @@
  *********************************************/
 using CP;
 
-int N = ...;
 int d = ...;
+int n = ...;
 
 
-dvar int x[1..N] in 1..d;
-dvar int y[1..N] in 1..d;
+dvar int x[1..n] in 1..d;
+dvar int y[1..n] in 1..d;
 
 
 subject to{
 	forall(i in 1..d) forall(j in 1..d)
-	  sum(k in 1..N) (i==x[k] && j==y[k] || ((abs(x[k] - i) + abs(y[k] - j)==3)&& i != x[k]&& j != y[k])) >= 1;
+	  sum(k in 1..n) ((i==x[k] && j==y[k] || ((abs(x[k] - i) + abs(y[k] - j)==3)&& i != x[k]&& j != y[k]))) >= 1;
 }
+
 
 execute{
 
@@ -24,7 +25,7 @@ execute{
 		var line = "";	
 		for(var j=1; j<=d; j++){
 			var found = false;		
-			for( var k=1; k<=N; k++){			
+			for( var k=1; k<=n; k++){			
 				if(i == x[k] && j == y[k]){
 					write(" o ");
 					found = true;
