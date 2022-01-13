@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="ASCII"?><project>
 	<version>1.0</version>
 	<configs>
-		<config default="true" name="Model" category="opl">
+		<config default="false" name="Boucle min" category="opl">
+			<ref name="Cavalier_boucle_min.mod" type="model">
+			</ref>
+			<ref name="Cavalier.dat" type="data">
+			</ref>
+			<ref name="Cavalier_min.ops" type="setting">
+			</ref>
+		</config>
+		<config default="false" name="Model Minimizable" category="opl">
+			<ref name="Cavalier.dat" type="data">
+			</ref>
+			<ref name="Cavalier_Minimizable.mod" type="model">
+			</ref>
+			<ref name="Cavalier_min.ops" type="setting">
+			</ref>
+		</config>
+		<config default="true" name="Base Model" category="opl">
 			<ref name="Cavalier.mod" type="model">
 			</ref>
 			<ref name="Cavalier.dat" type="data">
 			</ref>
 			<ref name="Cavalier.ops" type="setting">
-			</ref>
-		</config>
-		<config default="false" name="Boucle min" category="opl">
-			<ref name="Cavalier_boucle_min.mod" type="model">
-			</ref>
-			<ref name="Cavalier.dat" type="data">
 			</ref>
 		</config>
 	</configs>
