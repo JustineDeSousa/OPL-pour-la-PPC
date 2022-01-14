@@ -6,6 +6,8 @@
 			</ref>
 			<ref name="freq_alloc.dat" type="data">
 			</ref>
+			<ref name="freq_alloc.ops" type="setting">
+			</ref>
 		</config>
 		<config default="false" name="Modele alternatif" category="opl">
 			<ref name="freq_alloc_alternative.mod" type="model">
@@ -25,12 +27,20 @@
 			<ref name="freq_alloc.dat" type="data">
 			</ref>
 		</config>
-		<config default="true" name="Tests param" category="opl">
+		<config default="false" name="Tests param" category="opl">
 			<ref name="freq_alloc_alternative.mod" type="model">
 			</ref>
 			<ref name="freq_alloc.ops" type="setting">
 			</ref>
 			<ref name="freq_alloc.dat" type="data">
+			</ref>
+		</config>
+		<config default="true" name="searchPhase" category="opl">
+			<ref name="freq_alloc_searchPhase.mod" type="model">
+			</ref>
+			<ref name="freq_alloc.dat" type="data">
+			</ref>
+			<ref name="freq_alloc.ops" type="setting">
 			</ref>
 		</config>
 	</configs>
